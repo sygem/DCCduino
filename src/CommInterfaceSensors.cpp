@@ -10,6 +10,8 @@
 #include "Sensor.h"
 #include "DCCpp.h"
 #include "Objects/Servo.h"
+#include "Objects/Light.h"
+#include "Objects/LightGroup.h"
 #include "EEStore.h"
 
 SensorsInterface::SensorsInterface() {
@@ -120,6 +122,23 @@ void SensorsInterface::TurnOffServo(int n) {
   Servo* s = Servo::get(n);
   if (s != NULL) {
     s->turnOff(servo_pwm);
+  } else {
+    //CommManager::printf("<X Sensors::TurnOffServo>");
+  }
+}
+
+void SensorsInterface::SetLightBrightness(int n, int b) {
+  Light* l = Light::get(n);
+  if (l != NULL) {
+    l->setBrightness(l->data.pwm == 0 ? light1_pwm : light2_pwm, b);
+  } else {
+    //CommManager::printf("<X Sensors::TurnOffServo>");
+  }
+}
+void SensorsInterface::SetLightGroupBrightness(int n, int b) {
+  LightGroup* l = LightGroup::get(n);
+  if (l != NULL) {
+    l->setBrightness(servo_pwm, b);
   } else {
     //CommManager::printf("<X Sensors::TurnOffServo>");
   }

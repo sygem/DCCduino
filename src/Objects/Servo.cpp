@@ -128,6 +128,11 @@ void Servo::parse(const char *c) {
       create(n,s,min,max,1);
     break;
 
+    case 2:                     // argument is a string with id number only
+      Servo* tt = Servo::get(s);
+      CommManager::printf("<V %d %d %d %d>", tt->data.snum, tt->data.pin, tt->data.min, tt->data.max);
+    break;
+
     case 1:                     // argument is a string with id number only
       remove(n);
     break;
@@ -136,9 +141,6 @@ void Servo::parse(const char *c) {
       show();
     break;
 
-    case 2:                     // invalid number of arguments
-      CommManager::printf("<X Servo::parse>");
-      break;
   }
 }
 

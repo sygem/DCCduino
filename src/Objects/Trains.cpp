@@ -238,9 +238,4 @@ void Train::store(){
 
 ///////////////////////////////////////////////////////////////////////////////
 
-String Train::getName() {
-  String name(data.name);
-  return name;
-}
-
 Train *Train::firstTrain=NULL;

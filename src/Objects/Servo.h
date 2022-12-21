@@ -34,6 +34,7 @@ struct Servo {
   static Servo* get(int);  
   static void remove(int);  
   static void show();
+  static void show(int);
   static void status();
   static void parse(const char *c);
   static void check();   

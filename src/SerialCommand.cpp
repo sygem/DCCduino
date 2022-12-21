@@ -22,6 +22,8 @@ Part of DCC++ BASE STATION for the Arduino
 #include "Objects/Servo.h"
 #include "Objects/Controller.h"
 #include "Objects/Preset.h"
+#include "Objects/Light.h"
+#include "Objects/LightGroup.h"
 #include "Outputs.h"
 #include "EEStore.h"
 #include "CommInterface.h"
@@ -462,7 +464,7 @@ void SerialCommand::parse(const char *com){
  *     where MEM is the number of free bytes remaining in the Arduino's SRAM
  */
       int v;
-      CommManager::printf("<f%d>", (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval));
+      CommManager::printf("<f %d>", (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval));
       break;
 
 /***** LISTS BIT CONTENTS OF ALL INTERNAL DCC PACKET REGISTERS  ****/
@@ -505,12 +507,12 @@ void SerialCommand::parse(const char *com){
     case 'C':
       Controller::parse(com+1);
       break;
-    /*case 'L':
+    case 'L':
       Light::parse(com+1);
       break;
     case 'G':
       LightGroup::parse(com+1);
-      break;*/
+      break;
     case 'A':
       Preset::parse(com+1);
       break;
