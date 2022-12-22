@@ -65,8 +65,8 @@ void CommManager::printf(const char *fmt, ...) {
 	va_start(args, fmt);
 	vsnprintf(buf, sizeof(buf), fmt, args);
 	va_end(args);
-	for(int i = 0; i < nextInterface; i++) {
-		if(interfaces[i] != NULL) {
+	for (int i = 0; i < nextInterface; i++) {
+		if (interfaces[i] != NULL) {
 			interfaces[i]->send(buf);
 		}
 	}

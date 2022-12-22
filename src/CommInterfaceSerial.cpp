@@ -15,7 +15,7 @@ HardwareSerialInterface::HardwareSerialInterface(HardwareSerial &serial, long ba
 }
 
 void HardwareSerialInterface::process() {
-	while(Serial.available()) {
+	while (Serial.available()) {
 		char ch = Serial.read();
 		if (ch == '<') {
 			inCommandPayload = true;

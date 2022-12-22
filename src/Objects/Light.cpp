@@ -26,7 +26,8 @@ void Light::check(){
 
 ///////////////////////////////////////////////////////////////////////////////
 
-Light *Light::create(int snum, int pwm, int pin, int brightness, int v) {
+Light *Light::create(int snum, int pwm, int pin, int v) {
+  CommManager::printf("Create Light\n");
   Light *tt;
 
   if (firstLight==NULL) {
@@ -49,8 +50,9 @@ Light *Light::create(int snum, int pwm, int pin, int brightness, int v) {
   }
 
   tt->data.snum=snum;
+  tt->data.pwm=pwm;
   tt->data.pin=pin;
-  tt->data.brightness=brightness;
+  tt->data.brightness=0;
 
   if (v==1) {
     CommManager::printf("<O>");
@@ -100,7 +102,7 @@ void Light::show(){
   }
 
   for (tt=firstLight;tt!=NULL;tt=tt->nextLight) {
-    CommManager::printf("<V %d %d %d>", tt->data.snum, tt->data.pin, tt->data.brightness);
+    CommManager::printf("<L %d %d %d>", tt->data.snum, tt->data.pin, tt->data.brightness);
   }
 }
 
@@ -122,13 +124,23 @@ void Light::status(){
 ///////////////////////////////////////////////////////////////////////////////
 
 void Light::parse(const char *c) {
+  //CommManager::printf("<X Light::parse>");
   int n,pin,pwm;
-  //Light *t;
+  Light *s;
 
   switch(sscanf(c,"%d %d %d",&n,&pwm,&pin)) {
 
     case 3:                     // argument is string with id number of Light followed by a pin number and pullUp indicator (0=LOW/1=HIGH)
       create(n,pwm,pin,0);
+    break;
+
+    case 2:
+      s = get(n);
+      if (s != NULL) {
+        CommManager::printf("<I %d %d>", n, pwm);
+      } else {
+        CommManager::printf("<X Light::setBrightness>");
+      }
     break;
 
     case 1:                     // argument is a string with id number only

@@ -207,9 +207,9 @@ volatile RegisterList progRegs(2);                     // create a shorter list 
 
 void loop(){
   CommManager::update();      // check for and process any new commands
-  MotorBoardManager::check();
-  Sensor::check();    // check sensors for activate/de-activate
-  Train::check();
+  //MotorBoardManager::check();
+  //Sensor::check();    // check sensors for activate/de-activate
+  //Train::check();
 } // loop
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -254,8 +254,8 @@ void setup(){
   EEStore::init();                                         // initialize and load Turnout and Sensor definitions stored in EEPROM
 
 #if MOTOR_SHIELD_TYPE == 0
-  MotorBoardManager::registerBoard(CURRENT_MONITOR_PIN_MAIN, SIGNAL_ENABLE_PIN_MAIN, MOTOR_BOARD_TYPE::ARDUINO_SHIELD, "MAIN");
-  MotorBoardManager::registerBoard(CURRENT_MONITOR_PIN_PROG, SIGNAL_ENABLE_PIN_PROG, MOTOR_BOARD_TYPE::ARDUINO_SHIELD, "PROG");
+  //MotorBoardManager::registerBoard(CURRENT_MONITOR_PIN_MAIN, SIGNAL_ENABLE_PIN_MAIN, MOTOR_BOARD_TYPE::ARDUINO_SHIELD, "MAIN");
+  //MotorBoardManager::registerBoard(CURRENT_MONITOR_PIN_PROG, SIGNAL_ENABLE_PIN_PROG, MOTOR_BOARD_TYPE::ARDUINO_SHIELD, "PROG");
 #elif MOTOR_SHIELD_TYPE == 1
   MotorBoardManager::registerBoard(CURRENT_MONITOR_PIN_MAIN, SIGNAL_ENABLE_PIN_MAIN, MOTOR_BOARD_TYPE::POLOLU, "MAIN");
   MotorBoardManager::registerBoard(CURRENT_MONITOR_PIN_PROG, SIGNAL_ENABLE_PIN_PROG, MOTOR_BOARD_TYPE::POLOLU, "PROG");
@@ -305,12 +305,12 @@ void setup(){
   #define DCC_ONE_BIT_TOTAL_DURATION_TIMER1 1855
   #define DCC_ONE_BIT_PULSE_DURATION_TIMER1 927
 
-  pinMode(DIRECTION_MOTOR_CHANNEL_PIN_A,INPUT);      // ensure this pin is not active! Direction will be controlled by DCC SIGNAL instead (below)
-  digitalWrite(DIRECTION_MOTOR_CHANNEL_PIN_A,LOW);
+  //pinMode(DIRECTION_MOTOR_CHANNEL_PIN_A,INPUT);      // ensure this pin is not active! Direction will be controlled by DCC SIGNAL instead (below)
+  //digitalWrite(DIRECTION_MOTOR_CHANNEL_PIN_A,LOW);
 
-  pinMode(DCC_SIGNAL_PIN_MAIN, OUTPUT);      // THIS ARDUINO OUPUT PIN MUST BE PHYSICALLY CONNECTED TO THE PIN FOR DIRECTION-A OF MOTOR CHANNEL-A
+  //pinMode(DCC_SIGNAL_PIN_MAIN, OUTPUT);      // THIS ARDUINO OUPUT PIN MUST BE PHYSICALLY CONNECTED TO THE PIN FOR DIRECTION-A OF MOTOR CHANNEL-A
 
-  bitSet(TCCR1A,WGM10);     // set Timer 1 to FAST PWM, with TOP=OCR1A
+  /*bitSet(TCCR1A,WGM10);     // set Timer 1 to FAST PWM, with TOP=OCR1A
   bitSet(TCCR1A,WGM11);
   bitSet(TCCR1B,WGM12);
   bitSet(TCCR1B,WGM13);
@@ -329,7 +329,7 @@ void setup(){
 
   mainRegs.loadPacket(1,RegisterList::idlePacket,2,0);    // load idle packet into register 1
 
-  bitSet(TIMSK1,OCIE1B);    // enable interrupt vector for Timer 1 Output Compare B Match (OCR1B)
+  bitSet(TIMSK1,OCIE1B); */   // enable interrupt vector for Timer 1 Output Compare B Match (OCR1B)
 
   // CONFIGURE EITHER TIMER_0 (UNO) OR TIMER_3 (MEGA) TO OUTPUT 50% DUTY CYCLE DCC SIGNALS ON OC0B (UNO) OR OC3B (MEGA) INTERRUPT PINS
 
@@ -340,7 +340,7 @@ void setup(){
   // Values for 8-bit OCR0A and OCR0B registers calibrated for 1:64 prescale at 16 MHz clock frequency
   // Resulting waveforms are 200 microseconds for a ZERO bit and 116 microseconds for a ONE bit with as-close-as-possible to 50% duty cycle
 
-  #define DCC_ZERO_BIT_TOTAL_DURATION_TIMER0 49
+  /*#define DCC_ZERO_BIT_TOTAL_DURATION_TIMER0 49
   #define DCC_ZERO_BIT_PULSE_DURATION_TIMER0 24
 
   #define DCC_ONE_BIT_TOTAL_DURATION_TIMER0 28
@@ -369,7 +369,7 @@ void setup(){
 
   progRegs.loadPacket(1,RegisterList::idlePacket,2,0);    // load idle packet into register 1
 
-  bitSet(TIMSK0,OCIE0B);    // enable interrupt vector for Timer 0 Output Compare B Match (OCR0B)
+  bitSet(TIMSK0,OCIE0B); */   // enable interrupt vector for Timer 0 Output Compare B Match (OCR0B)
 
 #else      // Configuration for MEGA
 
@@ -484,9 +484,9 @@ ISR(TIMER1_COMPB_vect){              // set interrupt service for OCR1B of TIMER
 
 #ifdef ARDUINO_AVR_UNO      // Configuration for UNO
 
-ISR(TIMER0_COMPB_vect){              // set interrupt service for OCR1B of TIMER-0 which flips direction bit of Motor Shield Channel B controlling Prog Track
-  DCC_SIGNAL(progRegs,0)
-}
+//ISR(TIMER0_COMPB_vect){              // set interrupt service for OCR1B of TIMER-0 which flips direction bit of Motor Shield Channel B controlling Prog Track
+//  DCC_SIGNAL(progRegs,0)
+//}
 
 #else      // Configuration for MEGA
 

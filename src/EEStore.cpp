@@ -36,6 +36,8 @@ void EEStore::init(){
     eeStore->data.nServos=0;
     eeStore->data.nTrains=0;
     eeStore->data.nControllers=0;
+    eeStore->data.nLights=0;
+    eeStore->data.nLightGroups=0;
     EEPROM.put(0,eeStore->data);
   }
 
@@ -46,6 +48,8 @@ void EEStore::init(){
   Servo::load();      // load servo definitions
   Train::load();
   Controller::load();
+  Light::load();
+  LightGroup::load();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -59,6 +63,8 @@ void EEStore::clear(){
   eeStore->data.nServos=0;
   eeStore->data.nTrains=0;
   eeStore->data.nControllers=0;
+  eeStore->data.nLights=0;
+  eeStore->data.nLightGroups=0;
   EEPROM.put(0,eeStore->data);
 
 }

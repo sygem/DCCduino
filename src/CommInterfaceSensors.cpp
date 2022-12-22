@@ -15,13 +15,21 @@
 #include "EEStore.h"
 
 SensorsInterface::SensorsInterface() {
-#ifndef ARDUINO_AVR_UNO
+//#ifndef ARDUINO_AVR_UNO
 
   servo_pwm.begin();
   servo_pwm.setPWMFreq(60);
   delay(10);
 
-#endif
+  light1_pwm.begin();
+  light1_pwm.setPWMFreq(400);
+  delay(10);
+
+  light2_pwm.begin();
+  light2_pwm.setPWMFreq(400);
+  delay(10);
+
+//#endif
 
 }
 
@@ -102,6 +110,18 @@ void SensorsInterface::send(const char *buf) {
                   CommManager::printf("<X Sensors::send 3>");
                   break;
               }
+            }
+            break;
+            case 'I':
+            switch(sscanf(buffer.c_str()+1,"%d %d",&n,&min)){
+
+              case 2:                     // argument is a string with id number only
+                SetLightBrightness(n,min);
+                CommManager::printf("<O>");
+              break;
+              default:
+                CommManager::printf("<X Sensors::send 1>");
+                break;
             }
             break;
         }

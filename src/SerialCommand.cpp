@@ -334,7 +334,8 @@ void SerialCommand::parse(const char *com){
       CommManager::printf("\n");
       Train::show();
       CommManager::printf("\n");
-
+      Light::show();
+      CommManager::printf("\n");
 
       break;
 

@@ -27,7 +27,7 @@ struct Light {
   Light *nextLight;
   static void load();
   static void store();
-  static Light *create(int, int, int, int, int=0);
+  static Light *create(int, int, int, int=1);
   static Light* get(int);  
   static void remove(int);  
   static void show();
